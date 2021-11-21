@@ -14,9 +14,13 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import przychodnialekarska.Main;
 import przychodnialekarska.WindowManager;
+import przychodnialekarska.enums.ButtonNameEnum;
 
 import javax.swing.*;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -28,22 +32,22 @@ public class MenuController implements Initializable {
     @FXML
     private Label loginAs;
 
+    @FXML
+    private Label permissions;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        loginAs.setText("Tomasz Suchoduł");
-        String uprawnienia = "REJESTRATOR";
+        loginAs.setText(Main.imie + " " + Main.nazwisko);
 
-        switch(uprawnienia){
-            case "REJESTRATOR":
-                testFunction();
-                System.out.println("test");
-                break;
-            case "LEKARZ":
-                break;
-        }
+        permissions.setText(ButtonNameEnum.UPRAWIENIA.values()[Main.poziomUprawnien].toString());
+        String uprawnienia = "REJESTRATOR";
+        System.out.println(Main.poziomUprawnien + "poziom");
+        testFunction(Main.poziomUprawnien);
+
     }
 
     public void registerPatient(ActionEvent event){
+
         System.out.println("Rejestracja pacjenta");
         try {
             Parent root = FXMLLoader.load(getClass().getResource("../fxml/AddPatientForm.fxml"));
@@ -55,7 +59,7 @@ public class MenuController implements Initializable {
         }
     }
 
-    public void testFunction(){
+    public void testFunction(int access){
         int x = 0, y = 0;
 
         for(int i = 0; i < Main.buttonArrayList.size(); i++){
@@ -63,7 +67,8 @@ public class MenuController implements Initializable {
                 y++;
                 x = 0;
             }
-            if(Main.integerArrayListADMIN.indexOf(i) != -1){
+            //System.out.println(ButtonNameEnum.windowsIds.get(access).get(0));
+            if(ButtonNameEnum.windowsIds.get(access).indexOf(i) != -1){
 
                 menuItems.add(Main.buttonArrayList.get(i), x, y);
                 menuItems.setMargin(Main.buttonArrayList.get(i), new Insets(10,10,10,10));

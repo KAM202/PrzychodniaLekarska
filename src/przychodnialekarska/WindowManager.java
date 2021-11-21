@@ -7,6 +7,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import przychodnialekarska.controller.ServiceController;
 
 import java.util.Stack;
 
@@ -78,7 +79,10 @@ public class WindowManager {
     }
 
     public void closeWindow() {
+
         windows.lastElement().close();
+
+        //if(ServiceController.thread != null) ServiceController.thread.interrupt();
     }
 
 }

@@ -28,5 +28,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
       </GridPane>
+      <Label layoutX="909.0" layoutY="533.0" text="Poziom uprawnień:" />
+      <Label fx:id="permissions" alignment="CENTER_RIGHT" layoutX="899.0" layoutY="550.0" prefHeight="17.0" prefWidth="111.0" text="Label" />
    </children>
 </Pane>

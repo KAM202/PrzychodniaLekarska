@@ -4,50 +4,84 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import przychodnialekarska.controller.MenuController;
+import przychodnialekarska.enums.ButtonNameEnum;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Main extends Application {
 
     public static ArrayList<Button> buttonArrayList = new ArrayList<Button>();
-    public static ArrayList<Integer> integerArrayListRejestrator = new ArrayList(Arrays.asList(0,1,2,3));
-    public static ArrayList<Integer> integerArrayListLekarz = new ArrayList(Arrays.asList(1,3));
-    public static ArrayList<Integer> integerArrayListADMIN = new ArrayList(Arrays.asList(0,1,2,3,4,5,6,7));
+    public static int poziomUprawnien = -1;
+
+    public static String imie, nazwisko;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         test();
+
         WindowManager.getInstance().setMainWindow(primaryStage);
         Parent parent = FXMLLoader.load(getClass().getResource("fxml/LoginForm.fxml"));
+        //Parent parent = FXMLLoader.load(getClass().getResource("fxml/ServiceForm.fxml"));
         Scene scene = new Scene(parent);
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
 
-        //Parent root = FXMLLoader.load(getClass().getResource("fxml/MenuForm.fxml"));
-        //primaryStage.setTitle("Hello World");
-        //primaryStage.setScene(new Scene(root, 1024, 576));
-        //primaryStage.setResizable(false);
 
-        //primaryStage.show();
+
     }
 
     public static void main(String[] args) {
         launch(args);
-        //Main.st
+    }
+
+    public static void switchScene(ActionEvent e){
+        int numer = Integer.valueOf(((Node) e.getSource()).getId());
+        System.out.println(numer);
+
+        String resourceName = ButtonNameEnum.resourseWindows.get(numer);
+
+        try {
+            if(resourceName != null){
+                Parent root = FXMLLoader.load(Main.class.getResource(resourceName));
+
+                Stage stage = WindowManager.getInstance().createWindow(root);
+                stage.show();
+            }
+        }catch(Exception x){
+            x.printStackTrace();
+        }
     }
 
     public void test(){
+
+
+
         MenuController menuController = new MenuController();
 
+        for(int i = 0; i < ButtonNameEnum.windowsNames.size(); i++){
+            Button temp = new Button(ButtonNameEnum.windowsNames.get(i));
+            temp.setOnAction(e -> Main.switchScene(e));
+            temp.setAlignment(Pos.CENTER);
+            temp.setId(String.valueOf(i));
+            temp.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+            buttonArrayList.add(temp);
+        }
+
+
+        /*
         Button a = new Button("Zarejestruj pacjenta");
         a.setOnAction(e -> menuController.registerPatient(e));
         a.setAlignment(Pos.CENTER);
@@ -95,6 +129,6 @@ public class Main extends Application {
         h.setOnAction(e -> menuController.registerPatient(e));
         h.setAlignment(Pos.CENTER);
         h.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        buttonArrayList.add(h);
+        buttonArrayList.add(h);*/
     }
 }
