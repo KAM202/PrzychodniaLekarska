@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+
+<Pane prefHeight="467.0" prefWidth="535.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="przychodnialekarska.controller.MakeVisitController">
+   <children>
+      <Label layoutX="147.0" layoutY="30.0" text="Umów pacjenta na wizytę">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <GridPane layoutX="127.0" layoutY="70.0" prefHeight="192.0" prefWidth="280.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Pesel pacjenta:" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Lekarz:" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </Label>
+            <TextField fx:id="peselPatientTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ChoiceBox fx:id="doctorChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="Imię i nazwisko pacjenta:" />
+            <Label fx:id="nameSurnamePatientLabel" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </Label>
+            <Label text="Data wizyty:" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </Label>
+            <DatePicker fx:id="dateDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+         </children>
+      </GridPane>
+      <ListView fx:id="serviceListView" layoutX="33.0" layoutY="289.0" prefHeight="105.0" prefWidth="280.0" />
+      <Label layoutX="107.0" layoutY="262.0" text="Lista usług na wizycie">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <GridPane layoutX="69.0" layoutY="414.0" prefHeight="30.0" prefWidth="207.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButton" text="Anuluj " GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Button fx:id="addButton" mnemonicParsing="false" onAction="#addVisit" text="Dodaj wizytę" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+         </children>
+      </GridPane>
+      <GridPane layoutX="321.0" layoutY="297.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Wybór usługi:" GridPane.halignment="CENTER">
+               <padding>
+                  <Insets right="5.0" />
+               </padding>
+            </Label>
+            <Button fx:id="removeButton" mnemonicParsing="false" onAction="#removeService" text="Usuń usługę" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+            <ComboBox fx:id="addServiceComboBox" prefWidth="150.0" GridPane.columnIndex="1" />
+            <Button fx:id="addServiceButton" mnemonicParsing="false" onAction="#addService" text="Dodaj usługę" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+         </children>
+      </GridPane>
+      <Button fx:id="registerNewPatientButton" layoutX="335.0" layoutY="417.0" mnemonicParsing="false" onAction="#registerNewPatientButton" prefHeight="25.0" prefWidth="172.0" text="Rejestracja nowego pacjenta" />
+   </children>
+</Pane>
