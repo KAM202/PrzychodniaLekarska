@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import przychodnialekarska.DatabaseManager;
 import przychodnialekarska.objectClass.*;
+import przychodnialekarska.utils.Variables;
 
 import java.net.URL;
 //import java.sql.*;
@@ -16,6 +17,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -30,52 +32,16 @@ public class VisitListForm implements Initializable {
     private TableView visitTable;
 
     @FXML
-    private TableColumn idColumn;
+    private TableColumn idColumn, namePatientColumn, surnamePatientColumn, nameDoctorColumn, surnameDoctorColumn, dateColumn;
 
     @FXML
-    private TableColumn namePatientColumn;
+    private Label patientLabel, patientPeselLabel, patientMobileLabel, doctorLabel, dateLabel;
 
     @FXML
-    private TableColumn surnamePatientColumn;
+    private Button filterButton, removeFilterButton;
 
     @FXML
-    private TableColumn nameDoctorColumn;
-
-    @FXML
-    private TableColumn surnameDoctorColumn;
-
-    @FXML
-    private TableColumn dateColumn;
-
-    @FXML
-    private Label patientLabel;
-
-    @FXML
-    private Label patientPeselLabel;
-
-    @FXML
-    private Label patientMobileLabel;
-
-    @FXML
-    private Label doctorLabel;
-
-    @FXML
-    private Label dateLabel;
-
-    @FXML
-    private Button filterButton;
-
-    @FXML
-    private Button removeFilterButton;
-
-    @FXML
-    private TextField nameFilter;
-
-    @FXML
-    private TextField surnameFilter;
-
-    @FXML
-    private TextField surnameDoctorFilter;
+    private TextField nameFilter, surnameFilter, surnameDoctorFilter;
 
     @FXML
     private DatePicker dateFilter;
@@ -85,6 +51,9 @@ public class VisitListForm implements Initializable {
 
     @FXML
     private ListView listView;
+
+    private String additional;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -96,27 +65,43 @@ public class VisitListForm implements Initializable {
         dateColumn.setCellValueFactory(new PropertyValueFactory<VisitWrapper, Date>("date"));
 
         test = FXCollections.observableArrayList();
+        additional = (Variables.poziomUprawnien == 1)?Variables.additionalQuery:"";
 
+        loadDatabase();
+
+
+        visitTable.setItems(test);
+        visitTable.setPlaceholder(new Label("Nie odnaleziono żadnej wizyty."));
+
+        visitTable.getSelectionModel().selectedIndexProperty().addListener((num) -> onClick(test));
+        nameFilter.textProperty().addListener((observable, oldValue, newValue) -> liveFilter());
+        surnameFilter.textProperty().addListener((observable, oldValue, newValue) -> liveFilter());
+        surnameDoctorFilter.textProperty().addListener((observable, oldValue, newValue) -> liveFilter());
+        dateFilter.valueProperty().addListener((observable, oldValue, newValue) -> liveFilter());
+        allVisitFilter.selectedProperty().addListener((observable, oldValue, newValue) -> liveFilter());
+
+    }
+    private void loadDatabase(){
         try{
-           // Connection c = Main.pool.getConnection();
+            // Connection c = Main.pool.getConnection();
             Connection c = DatabaseManager.getConnection();
             //Statement statement = c.createStatement();
-            String sql = "SELECT wizyty.id_wizyty, pacjenci.imie, pacjenci.nazwisko, pracownicy.imie, pracownicy.nazwisko, wizyty.data, pacjenci.pesel_pacjenta, pacjenci.nr_telefonu FROM WIZYTY INNER JOIN pacjenci USING (pesel_pacjenta) INNER JOIN pracownicy USING (id_pracownika)";
+            String sql = "SELECT wizyty.id_wizyty, pacjenci.imie, pacjenci.nazwisko, pracownicy.imie, pracownicy.nazwisko, wizyty.data, pacjenci.pesel_pacjenta, pacjenci.nr_telefonu FROM WIZYTY INNER JOIN pacjenci USING (pesel_pacjenta) INNER JOIN pracownicy USING (id_pracownika)" + additional;
             Statement statement = c.createStatement();
             //PreparedStatement statement = c.prepareStatement(sql);
             //statement.setString(1, "wizyty");
-           // statement.setString(2, passwordField.getText());
-           // ResultSet res = statement.executeQuery();
+            // statement.setString(2, passwordField.getText());
+            // ResultSet res = statement.executeQuery();
             ResultSet res = statement.executeQuery(sql);
-            System.out.println("There are below tables:");
+
             while(res.next()) {
-                System.out.println(res.getString("data"));
+                //System.out.println(res.getString("data"));
                 //c = Main.pool.getConnection();
                 statement = c.createStatement();
                 ResultSet res2 = statement.executeQuery("SELECT uslugi.id_uslugi, uslugi.nazwa FROM SZCZEGOLY_WIZYT INNER JOIN USLUGI USING (id_uslugi) WHERE id_wizyty = '" + res.getInt("id_wizyty") + "'");
                 ArrayList<Usluga> uslugaArrayList = new ArrayList<>();
                 while (res2.next()) {
-                    System.out.println(res2.getString("nazwa"));
+                    //System.out.println(res2.getString("nazwa"));
                     uslugaArrayList.add(new Usluga(res2.getInt("id_uslugi"), res2.getString("nazwa"), "", 1.0));
                 }
 
@@ -128,57 +113,27 @@ public class VisitListForm implements Initializable {
                 ));
 
             }
-            //if(c != null) Main.pool.returnConnection(c);
+
         }catch(Exception e){
             e.printStackTrace();
         }
-        visitTable.setItems(test);
-        visitTable.setPlaceholder(new Label("Nie odnaleziono żadnej wizyty."));
-        //visitTable.addEventHandler(e -> onClick(e));
-        //visitTable.getSelectionModel().selectedIndexProperty()
-       visitTable.getSelectionModel().selectedIndexProperty().addListener((num) -> onClick(test));
-
     }
 
-
-    public void filterButtonClick(ActionEvent event) throws ParseException {
+    public void liveFilter(){
         ObservableList<VisitWrapper> test2 = FXCollections.observableArrayList();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate date = dateFilter.getValue();
 
-        if(nameFilter.getText().length() > 2 || surnameFilter.getText().length() > 2 || surnameDoctorFilter.getText().length() > 2 || dateFilter.getEditor().getText().length() > 2 || (!allVisitFilter.isSelected())){
-            System.out.println("petla");
+
+
             for(int i = 0; i < test.size(); i++){
-                if(nameFilter.getText().length() > 2 && !(test.get(i).getNamePatient().toLowerCase().contains(nameFilter.getText().toLowerCase()))) continue;
-                if(surnameFilter.getText().length() > 2 && !(test.get(i).getSurnamePatient().toLowerCase().contains(surnameFilter.getText().toLowerCase()))) continue;
-                if(surnameDoctorFilter.getText().length() > 2 && !(test.get(i).getSurnameDoctor().toLowerCase().contains(surnameDoctorFilter.getText().toLowerCase()))) continue;
-                //sif(!dateFilter.getValue().equals(null) && ())
-                // dodac obsluge daty
-                //if(!(allVisitFilter.isSelected())) continue;
-               // System.out.println((new SimpleDateFormat("yyyy-MM-dd").format(new Date())) < (new SimpleDateFormat("yyyy-MM-dd").parse(test.get(i).getDate())));
-
-                //System.out.println((!test.get(i).getNamePatient().toLowerCase().contains(nameFilter.getText().toLowerCase())));
+                if(nameFilter.getText().length() > 0 && !(test.get(i).getNamePatient().toLowerCase().contains(nameFilter.getText().toLowerCase()))) continue;
+                if(surnameFilter.getText().length() > 0 && !(test.get(i).getSurnamePatient().toLowerCase().contains(surnameFilter.getText().toLowerCase()))) continue;
+                if(surnameDoctorFilter.getText().length() > 0 && !(test.get(i).getSurnameDoctor().toLowerCase().contains(surnameDoctorFilter.getText().toLowerCase()))) continue;
+                if(dateFilter.getValue() != null && !(test.get(i).getDate().equals(dateFilter.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))))) continue;
+                if(!allVisitFilter.isSelected() && !(LocalDate.parse(test.get(i).getDate()).isAfter(LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))) || LocalDate.parse(test.get(i).getDate()).isEqual(LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))))) continue;
                 test2.add(test.get(i));
             }
             visitTable.setItems(test2);
-        }else{
-            visitTable.setItems(test);
-        }
-
-
-        /*if(nameFilter.getText().length() > 2){
-            for(int i = 0; i < test.size(); i++){
-                if(test.get(i).getNamePatient().toLowerCase().contains(nameFilter.getText().toLowerCase())){
-                    test2.add(test.get(i));
-                }
-            }
-            visitTable.setItems(test2);
-            System.out.println(nameFilter.getText().length());
-        }else{
-            visitTable.setItems(test);
-        }
-        */
-
+            clear();
     }
 
     public void removeFilterButtonClick(ActionEvent event){
@@ -188,11 +143,20 @@ public class VisitListForm implements Initializable {
         dateFilter.setValue(null);
         dateFilter.getEditor().clear();
         allVisitFilter.setSelected(true);
-        visitTable.setItems(test);
+    }
+
+    public void clear(){
+        patientLabel.setText("");
+        patientPeselLabel.setText("");
+        patientMobileLabel.setText("");
+        doctorLabel.setText("");
+        dateLabel.setText("");
+        listView.getItems().clear();
     }
 
     private void onClick(ObservableList<VisitWrapper> test) {
         int index = visitTable.getSelectionModel().getSelectedIndex();
+        if(index == -1) return;
         //System.out.println(visitTable.getSelectionModel().getSelectedIndex());
         patientLabel.setText(test.get(index).getNamePatient() + " " + test.get(index).getSurnamePatient());
         patientPeselLabel.setText(test.get(index).getPeselPatient());
@@ -205,7 +169,6 @@ public class VisitListForm implements Initializable {
             listView.getItems().add(test.get(index).getUslugi().get(i).getNameService());
         }
 
-        System.out.println(test.get(index).getNamePatient());
 
     }
 

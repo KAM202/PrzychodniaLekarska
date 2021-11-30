@@ -15,6 +15,8 @@ import przychodnialekarska.DatabaseManager;
 import przychodnialekarska.WindowManager;
 import przychodnialekarska.objectClass.Usluga;
 import przychodnialekarska.utils.Formatter;
+import przychodnialekarska.utils.LanguageString;
+import przychodnialekarska.utils.UtilFunction;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -51,22 +53,8 @@ public class ServiceController implements Initializable {
         nameTableColumn.setCellValueFactory(new PropertyValueFactory<Usluga, String>("nameService"));
         descriptionTableColumn.setCellValueFactory(new PropertyValueFactory<Usluga, String>("descriptionService"));
         costTableColumn.setCellValueFactory(new PropertyValueFactory<Usluga, String>("costService"));
-        /*
-        descriptionTableColumn.setCellValueFactory(tc ->{
-            TableCell<Usluga, String> cell = new TableCell<>();
-            Text text = new Text();
-            cell.setGraphic(text);
-            cell.setPrefHeight(Control.USE_COMPUTED_SIZE);
-            text.wrappingWidthProperty().bind(descriptionTableColumn.widthProperty());
-            return cell;
-        });
 
-         */
         getFromDatabase();
-
-        //uslugi.add(new Usluga(1,"Nazwa", "Opiwdqwqwdqqdwqdwqwds", 30));
-        //uslugi.add(new Usluga(2,"Nazwa2", "Opiwdqwqwdqqdwqdwqwds", 60));
-        //uslugi.add(new Usluga(3,"Nazwa3", "Opiwdqwqwdqqdwqdwqwds", 90));
 
 
 
@@ -78,8 +66,8 @@ public class ServiceController implements Initializable {
 
         serviceTableView.getSelectionModel().selectedIndexProperty().addListener((num) -> onClick());
 
-        nameTextField.textProperty().addListener((observable, oldvalue, newvalue) -> this.changeTextFieldListener(observable, oldvalue, newvalue, this.nameTextField, 32));
-        descriptionTextField.textProperty().addListener((observable, oldvalue, newvalue) -> this.changeTextFieldListener(observable, oldvalue, newvalue, this.descriptionTextField, 64));
+        nameTextField.textProperty().addListener((observable, oldvalue, newvalue) -> UtilFunction.changeTextFieldListener(observable, oldvalue, newvalue, this.nameTextField, 32));
+        descriptionTextField.textProperty().addListener((observable, oldvalue, newvalue) -> UtilFunction.changeTextAreaListener(observable, oldvalue, newvalue, this.descriptionTextField, 64));
 
         thread = new Thread(new Runnable() {
             @Override
@@ -87,7 +75,6 @@ public class ServiceController implements Initializable {
                 while(true) {
                     if (anyChange == true) {
                         anyChange = false;
-                        System.out.println("Byla jakas zmiana");
                         getFromDatabase();
                     }
 
@@ -102,12 +89,16 @@ public class ServiceController implements Initializable {
         });
         thread.start();
 
-        //System.out.println(thread.getState());
+
     }
 
     public void saveClick(ActionEvent event){
         int index = serviceTableView.getSelectionModel().getSelectedIndex();
         if(index == -1) return;
+
+        if(nameTextField.getText().isEmpty()){ UtilFunction.showAlert(Alert.AlertType.WARNING, LanguageString.NULL_NAME_SERVICE).show();return;}
+        if(descriptionTextField.getText().isEmpty()){ UtilFunction.showAlert(Alert.AlertType.WARNING, LanguageString.NULL_DESCRIPTION_SERVICE).show();return;}
+        if(costTextField.getText().isEmpty()){ UtilFunction.showAlert(Alert.AlertType.WARNING, LanguageString.NULL_COST_SERVICE).show();return;}
 
         try{
             //Connection c = Main.pool.getConnection();
@@ -131,7 +122,7 @@ public class ServiceController implements Initializable {
         uslugi.get(index).setCostService(Double.parseDouble(costTextField.getText()));
         serviceTableView.refresh();
         //serviceTableView.setItems(uslugi);
-        System.out.println(uslugi.get(index).getNameService());
+        UtilFunction.showAlert(Alert.AlertType.INFORMATION, LanguageString.SERVICE_SAVED).show();
     }
     public void removeClick(ActionEvent event){
         int index = serviceTableView.getSelectionModel().getSelectedIndex();
@@ -150,6 +141,7 @@ public class ServiceController implements Initializable {
             e.printStackTrace();
         }
         uslugi.remove(index);
+        UtilFunction.showAlert(Alert.AlertType.INFORMATION, LanguageString.SERVICE_REMOVED).show();
        // uslugi.remove(index);
         //serviceTableView.refresh();
         //serviceTableView.setItems(uslugi);
@@ -165,7 +157,7 @@ public class ServiceController implements Initializable {
         }catch(Exception e){
             e.printStackTrace();
         }
-        System.out.println(anyChange);
+
     }
 
     public void getFromDatabase(){
@@ -195,7 +187,6 @@ public class ServiceController implements Initializable {
         nameTextField.setText(uslugi.get(index).getNameService());
         descriptionTextField.setText(uslugi.get(index).getDescriptionService());
         costTextField.setText(String.valueOf(uslugi.get(index).getCostService()));
-        System.out.println(String.valueOf(uslugi.get(index).getCostService()) + " zł");
     }
 
     public void changeTextFieldListener(final ObservableValue<? extends String> ov, final String oldValue, final String newValue, TextField textField, final Integer maxLength) {
@@ -204,10 +195,10 @@ public class ServiceController implements Initializable {
             textField.setText(s);
         }
     }
-    public void changeTextFieldListener(final ObservableValue<? extends String> ov, final String oldValue, final String newValue, TextArea textField, final Integer maxLength) {
-        if (textField.getText().length() > maxLength) {
-            String s = textField.getText().substring(0, maxLength);
-            textField.setText(s);
+    public void changeTextAreaListener(final ObservableValue<? extends String> ov, final String oldValue, final String newValue, TextArea textArea, final Integer maxLength) {
+        if (textArea.getText().length() > maxLength) {
+            String s = textArea.getText().substring(0, maxLength);
+            textArea.setText(s);
         }
     }
 

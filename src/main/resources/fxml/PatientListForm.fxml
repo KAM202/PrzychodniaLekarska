@@ -84,9 +84,8 @@
             <TextField fx:id="peselFilter" GridPane.columnIndex="1" />
             <TextField fx:id="nameFilter" prefWidth="127.0" GridPane.columnIndex="3" />
             <TextField fx:id="surnameFilter" GridPane.columnIndex="5" />
-            <Button fx:id="removeFilterButton" mnemonicParsing="false" onAction="#removeFilterButtonClick" prefHeight="25.0" prefWidth="95.0" text="Usuń filtry" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-            <Button fx:id="filterButton" mnemonicParsing="false" onAction="#filterButtonClick" prefHeight="25.0" prefWidth="110.0" text="Filtruj" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
+      <Button fx:id="removeFilterButton" layoutX="354.0" layoutY="336.0" mnemonicParsing="false" onAction="#removeFilterButtonClick" prefHeight="25.0" prefWidth="95.0" text="Usuń filtry" />
    </children>
 </Pane>

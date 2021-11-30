@@ -46,6 +46,8 @@ public class HelpController implements Initializable {
     private File file;
     private Media media;
     private MediaPlayer mediaPlayer;
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //file = new File(getClass().getResource("/mp4/kitty.mp4").toURI());
@@ -82,7 +84,7 @@ public class HelpController implements Initializable {
             public void run() {
                 mediaPlayer.stop();
                 startStopButton.setText("Start");
-                System.out.println(mediaPlayer.getStatus());
+
             }
         });
 
@@ -160,6 +162,7 @@ public class HelpController implements Initializable {
 
             AcroFields form = stamper.getAcroFields();
             form.setField("name", "Przykładowa nazwa");
+            form.
             stamper.setFormFlattening(true);
 
             stamper.close();

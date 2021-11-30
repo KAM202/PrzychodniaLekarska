@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane prefHeight="447.0" prefWidth="881.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="przychodnialekarska.controller.ReportController">
+   <children>
+      <Label layoutX="315.0" layoutY="14.0" text="Raporty przychodni lekarskiej">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <PieChart fx:id="mostDonePieChart" focusTraversable="true" layoutX="43.0" layoutY="76.0" legendSide="LEFT" prefHeight="276.0" prefWidth="366.0" />
+      <Label layoutX="131.0" layoutY="50.0" text="Najwięcej wykonanych usług">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="551.0" layoutY="50.0" text="Lista przychodów z konkretnej usługi">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <ListView fx:id="listView" layoutX="514.0" layoutY="76.0" prefHeight="276.0" prefWidth="318.0" />
+      <Label layoutX="343.0" layoutY="393.0" text="Łączny zysk:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="totalProfitLabel" layoutX="437.0" layoutY="393.0">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>

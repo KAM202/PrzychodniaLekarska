@@ -5,14 +5,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import przychodnialekarska.Main;
 import przychodnialekarska.WindowManager;
-import przychodnialekarska.enums.ButtonNameEnum;
+import przychodnialekarska.utils.Variables;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -29,12 +33,11 @@ public class MenuController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        loginAs.setText(Main.imie + " " + Main.nazwisko);
+        loginAs.setText(Variables.imie + " " + Variables.nazwisko);
 
-        permissions.setText(ButtonNameEnum.UPRAWIENIA.values()[Main.poziomUprawnien].toString());
+        permissions.setText(Variables.UPRAWIENIA.values()[Variables.poziomUprawnien].toString());
         String uprawnienia = "REJESTRATOR";
-        System.out.println(Main.poziomUprawnien + "poziom");
-        testFunction(Main.poziomUprawnien);
+        testFunction(Variables.poziomUprawnien);
 
     }
 
@@ -48,7 +51,7 @@ public class MenuController implements Initializable {
             e.printStackTrace();
         }
     }
-
+    /*
     public void registerPatient(ActionEvent event){
 
         System.out.println("Rejestracja pacjenta");
@@ -62,25 +65,45 @@ public class MenuController implements Initializable {
         }
     }
 
+     */
+
     public void testFunction(int access){
         int x = 0, y = 0;
 
-        for(int i = 0; i < Main.buttonArrayList.size(); i++){
+        for(int i = 0; i < Variables.buttonArrayList.size(); i++){
             if(x > 2){
                 y++;
                 x = 0;
             }
-            //System.out.println(ButtonNameEnum.windowsIds.get(access).get(0));
-            if(ButtonNameEnum.windowsIds.get(access).indexOf(i) != -1){
+            if(Variables.windowsIds.get(access).indexOf(i) != -1){
 
-                menuItems.add(Main.buttonArrayList.get(i), x, y);
-                menuItems.setMargin(Main.buttonArrayList.get(i), new Insets(10,10,10,10));
-               // menuItems.setFillHeight(Main.buttonArrayList.get(i),true);
-                //menuItems.setFillWidth(Main.buttonArrayList.get(i),true);
+                menuItems.add(Variables.buttonArrayList.get(i), x, y);
+                menuItems.setMargin(Variables.buttonArrayList.get(i), new Insets(10,10,10,10));
                 x++;
             }
         }
 
 
+    }
+
+    public void logoutAction(ActionEvent event) {
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(Main.class.getResource("/fxml/LoginForm.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene scene = new Scene(root);
+
+        Stage stage = new Stage();
+        stage.setResizable(false);
+        WindowManager.getInstance().setMainWindow(stage);
+        stage.setTitle("System informatyczny obsługi przychodni lekarskiej - Logowanie");
+        stage.getIcons().add(new Image("/img/logo.png"));
+        stage.setScene(scene);
+        stage.show();
+
+
+        ((Node)(event.getSource())).getScene().getWindow().hide();
     }
 }

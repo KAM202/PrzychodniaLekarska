@@ -29,6 +29,9 @@
                 <version>8.7.0</version>
                 <configuration>
                     <mainClass>przychodnialekarska.Launcher</mainClass>
+                    <bundleArguments>
+                        <icon>${project.basedir}/src/main/resources/img/logo.ico</icon>
+                    </bundleArguments>
                 </configuration>
             </plugin>
         </plugins>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
@@ -8,9 +9,12 @@
 <?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="960.0" style="-fx-background-color: #DCDCDC;" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="przychodnialekarska.controller.HelpController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="960.0" style="-fx-background-color: #DCDCDC;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="przychodnialekarska.controller.HelpController">
    <children>
-      <MediaView fx:id="mediaView" fitHeight="432.0" fitWidth="768.0" layoutX="96.0" layoutY="84.0" onMouseClicked="#mediaViewClick" />
+      <MediaView fx:id="mediaView" fitHeight="432.0" fitWidth="768.0" layoutX="96.0" layoutY="84.0" onMouseClicked="#mediaViewClick">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></MediaView>
       <Slider fx:id="seekSlider" layoutX="170.0" layoutY="534.0" prefHeight="14.0" prefWidth="636.0" />
       <Button fx:id="startStopButton" layoutX="96.0" layoutY="529.0" mnemonicParsing="false" onAction="#startStopButtonClick" prefHeight="25.0" prefWidth="65.0" text="Start" />
       <Label fx:id="actualTimeLabel" layoutX="812.0" layoutY="533.0" prefHeight="17.0" prefWidth="29.0" text="0:00">

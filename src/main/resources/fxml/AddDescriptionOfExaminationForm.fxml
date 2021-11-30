@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<Pane prefHeight="602.0" prefWidth="869.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="przychodnialekarska.controller.AddDescriptionOfExaminationController">
+   <children>
+      <Label layoutX="331.0" layoutY="14.0" text="Dodaj opis badania">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <TableView fx:id="visitTable" layoutX="25.0" layoutY="76.0" prefHeight="206.0" prefWidth="403.0">
+        <columns>
+          <TableColumn fx:id="idColumn" prefWidth="56.0" text="Id wizyty" />
+            <TableColumn fx:id="peselColumn" prefWidth="95.0" text="Pesel" />
+          <TableColumn fx:id="nameColumn" prefWidth="74.0" text="Imię" />
+            <TableColumn fx:id="surnameColumn" prefWidth="93.0" text="Nazwisko" />
+            <TableColumn fx:id="dateColumn" prefWidth="84.0" text="Data" />
+        </columns>
+      </TableView>
+      <Label layoutX="136.0" layoutY="51.0" text="1. Wybierz wizytę z listy">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <ListView fx:id="serviceList" layoutX="25.0" layoutY="427.0" prefHeight="133.0" prefWidth="403.0" />
+      <Label layoutX="159.0" layoutY="395.0" text="2. Wybierz usługę">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="542.0" layoutY="51.0" text="3. Opisz badanie wykonanej usługi">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <GridPane layoutX="460.0" layoutY="108.0" prefHeight="287.0" prefWidth="367.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="179.0" minWidth="10.0" prefWidth="130.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="245.0" minWidth="10.0" prefWidth="237.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Wynik badania*:" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Opis badania*:" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Zalecenia:" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </Label>
+            <TextArea fx:id="descriptionTextArea" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets bottom="5.0" />
+               </GridPane.margin>
+            </TextArea>
+            <TextArea fx:id="resultTextArea" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets bottom="5.0" />
+               </GridPane.margin>
+            </TextArea>
+            <TextArea fx:id="recommendationsTextArea" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets bottom="5.0" />
+               </GridPane.margin>
+            </TextArea>
+            <Label text="Wybrana usługa:" GridPane.halignment="RIGHT">
+               <padding>
+                  <Insets right="10.0" />
+               </padding>
+            </Label>
+            <Label fx:id="serviceNameLabel" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </Label>
+         </children>
+      </GridPane>
+      <CheckBox fx:id="recipeCheckBox" disable="true" layoutX="585.0" layoutY="407.0" mnemonicParsing="false" text="Czy recepta jest wystawiona?" />
+      <GridPane layoutX="655.0" layoutY="558.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="cancelButton" mnemonicParsing="false" text="Anuluj" GridPane.halignment="RIGHT" />
+            <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#confirmClick" text="Zatwierdź opis" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+         </children>
+      </GridPane>
+      <GridPane layoutX="25.0" layoutY="291.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="73.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="130.0" minWidth="10.0" prefWidth="127.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Pesel:" GridPane.halignment="RIGHT">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Imię:" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Nazwisko:" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Data" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </Label>
+            <Button fx:id="removeFilterButton" mnemonicParsing="false" onAction="#removeFilter" text="Usuń filtry" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+            <TextField fx:id="peselFilterTextField" GridPane.columnIndex="1" />
+            <TextField fx:id="nameFilterTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="surnameFilterTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <DatePicker fx:id="dateDatePicker" GridPane.columnIndex="3" />
+         </children>
+      </GridPane>
+      <ListView fx:id="attachmentListView" layoutX="472.0" layoutY="468.0" prefHeight="82.0" prefWidth="200.0" />
+      <Label layoutX="526.0" layoutY="436.0" text="4. Załączniki">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <GridPane layoutX="689.0" layoutY="479.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="addFileButton" disable="true" mnemonicParsing="false" onAction="#addFileClick" text="Dodaj plik" GridPane.halignment="CENTER" />
+            <Button fx:id="removeFileButton" disable="true" mnemonicParsing="false" onAction="#removeFileClick" text="Usuń plik" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+         </children>
+      </GridPane>
+   </children>
+</Pane>

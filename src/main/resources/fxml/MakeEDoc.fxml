@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<Pane prefHeight="476.0" prefWidth="860.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="przychodnialekarska.controller.MakeEDocController">
+   <children>
+      <Label layoutX="119.0" layoutY="48.0" text="eRecepta">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="659.0" layoutY="48.0" text="eSkierowanie">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="280.0" layoutY="14.0" text="Tworzenie eRecepty / eSkierowania">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="347.0" layoutY="74.0" text="Wprowadź dane pacjenta">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <GridPane layoutX="293.0" layoutY="113.0" prefHeight="208.0" prefWidth="237.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Pesel*:" GridPane.halignment="RIGHT">
+               <font>
+                  <Font size="13.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets right="7.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Imię*:" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+               <font>
+                  <Font size="13.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets right="7.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Nazwisko*:" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+               <font>
+                  <Font size="13.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets right="7.0" />
+               </GridPane.margin>
+            </Label>
+            <TextField fx:id="peselFilterTextField" GridPane.columnIndex="1" />
+            <TextField fx:id="nameTextField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="surnameTextField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="Adres*:" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+               <font>
+                  <Font size="13.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets right="7.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Kod pocztowy*:" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+               <font>
+                  <Font size="13.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets right="7.0" />
+               </GridPane.margin>
+            </Label>
+            <TextField fx:id="addressTextField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="zipTextField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+         </children>
+      </GridPane>
+      <GridPane layoutX="19.0" layoutY="74.0" prefHeight="332.0" prefWidth="261.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="126.0" minWidth="10.0" prefWidth="106.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="156.0" minWidth="10.0" prefWidth="155.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Nazwa 1 leku:" GridPane.halignment="RIGHT">
+               <font>
+                  <Font size="13.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets right="5.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Opis 1 leku:" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+               <font>
+                  <Font size="13.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets right="5.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Nazwa 2 leku:" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+               <font>
+                  <Font size="13.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets right="5.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Opis 2 leku:" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+               <font>
+                  <Font size="13.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets right="5.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Nazwa 3 leku:" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+               <font>
+                  <Font size="13.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets right="5.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Opis 3 leku:" GridPane.halignment="RIGHT" GridPane.rowIndex="5">
+               <font>
+                  <Font size="13.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets right="5.0" />
+               </GridPane.margin>
+            </Label>
+            <TextField fx:id="name1MedicineTextField" GridPane.columnIndex="1" />
+            <TextField fx:id="name2MedicineTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="name3MedicineTextField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextArea fx:id="desc1MedicineTextField" prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextArea fx:id="desc2MedicineTextField" prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextArea fx:id="desc3MedicineTextField" prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+         </children>
+      </GridPane>
+      <GridPane layoutX="572.0" layoutY="94.0" prefHeight="275.0" prefWidth="261.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="126.0" minWidth="10.0" prefWidth="106.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="156.0" minWidth="10.0" prefWidth="155.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Label text="Wybierz usługę:" GridPane.halignment="RIGHT">
+               <font>
+                  <Font size="13.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets right="7.0" />
+               </GridPane.margin>
+            </Label>
+            <ChoiceBox fx:id="serviceChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" />
+            <Label text="Nazwa usługi:" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+               <font>
+                  <Font size="13.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets right="7.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Opis usługi:" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+               <font>
+                  <Font size="13.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets right="7.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Cena usługi:" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+               <font>
+                  <Font size="13.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets right="7.0" />
+               </GridPane.margin>
+            </Label>
+            <TextField fx:id="nameServiceTextField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextArea fx:id="descServiceTextArea" editable="false" prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="costServiceLabel" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Wybierz termin:" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+               <GridPane.margin>
+                  <Insets right="7.0" />
+               </GridPane.margin>
+            </Label>
+            <DatePicker fx:id="datePicker" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+         </children>
+      </GridPane>
+      <GridPane layoutX="225.0" layoutY="432.0" prefHeight="30.0" prefWidth="411.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button mnemonicParsing="false" onAction="#saveeReceptClick" prefWidth="127.0" text="Wystaw eReceptę" GridPane.halignment="CENTER" />
+            <Button mnemonicParsing="false" onAction="#cancelClick" text="Zakończ" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+            <Button mnemonicParsing="false" onAction="#saveeReferralClick" text="Wystaw eSkierowanie" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+         </children>
+      </GridPane>
+   </children>
+</Pane>

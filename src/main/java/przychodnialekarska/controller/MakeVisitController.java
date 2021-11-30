@@ -1,5 +1,8 @@
 package przychodnialekarska.controller;
 
+import com.itextpdf.text.pdf.AcroFields;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -7,15 +10,25 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import przychodnialekarska.DatabaseManager;
 import przychodnialekarska.WindowManager;
 import przychodnialekarska.objectClass.Lekarz;
 import przychodnialekarska.objectClass.Pacjent;
 import przychodnialekarska.objectClass.Usluga;
+import przychodnialekarska.utils.LanguageString;
+import przychodnialekarska.utils.UtilFunction;
+import przychodnialekarska.utils.Variables;
 
+import java.awt.*;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,6 +36,7 @@ import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class MakeVisitController implements Initializable {
@@ -38,7 +52,7 @@ public class MakeVisitController implements Initializable {
 
 
     @FXML
-    private Label nameSurnamePatientLabel;
+    private Label nameSurnamePatientLabel, priceServicesLabel;
 
     @FXML
     private TextField peselPatientTextField;
@@ -56,8 +70,9 @@ public class MakeVisitController implements Initializable {
     private ListView serviceListView;
 
     @FXML
-    private Button removeButton, cancelButton, addButton, registerNewPatientButton, addServiceButton;
+    private Button removeButton, cancelButton, addButton, registerNewPatientButton, addServiceButton, billButton;
 
+    private double priceServices;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         serviceList = new ArrayList<Usluga>();
@@ -65,6 +80,8 @@ public class MakeVisitController implements Initializable {
         doctorList = new ArrayList<Lekarz>();
         selectedServiceList = new ArrayList<Usluga>();
         selectedPatientPesel = "";
+        priceServices = 0.0;
+        priceServicesLabel.setText(priceServices + " PLN");
         //serviceListOnView = new ArrayList<String>();
         loadDatabase();
 
@@ -105,10 +122,7 @@ public class MakeVisitController implements Initializable {
                 }
             }
 
-            System.out.println("textfield changed from " + oldValue + " to " + newValue);
         });
-
-        //serviceListView.getItems().addAll(serviceList);
 
     }
 
@@ -143,15 +157,16 @@ public class MakeVisitController implements Initializable {
         int index = addServiceComboBox.getSelectionModel().getSelectedIndex();
         if(index == -1) return; //informacja ze nei wybrano uslugi
 
-        serviceListView.getItems().add(serviceList.get(index).getNameService());
-        selectedServiceList.add(serviceList.get(index));
-        //serviceListView.getItems().add(serviceList.get(index));
-        serviceList.remove(index);
-        //serviceList.remove(index);
-        addServiceComboBox.getItems().remove(index);
+        serviceListView.getItems().add(serviceList.get(index).getNameService()); //dodaje do listy
+        selectedServiceList.add(serviceList.get(index)); //dodaje do listy ktora przechowuje uslugi
+        priceServices += serviceList.get(index).getCostService();
+        serviceList.remove(index); //usuwam z domyslnej puli
 
-        addServiceComboBox.setValue("");
+        addServiceComboBox.getItems().remove(index); //usuwam z comboboxa
 
+        priceServicesLabel.setText(priceServices + " PLN");
+
+        addServiceComboBox.setValue(null);
 
     }
 
@@ -159,12 +174,13 @@ public class MakeVisitController implements Initializable {
         int index = serviceListView.getSelectionModel().getSelectedIndex();
         if(index == -1) return; //informacja ze nei wybrano uslugi
 
-        //serviceList.add(serviceListView.getItems().get(index).toString());
+        addServiceComboBox.getItems().add(selectedServiceList.get(index).getNameService()); // add to combobox
+        serviceList.add(selectedServiceList.get(index)); //dodaje do glownej
+        priceServices -= selectedServiceList.get(index).getCostService();
+        selectedServiceList.remove(index);
+        serviceListView.getItems().remove(index); //usuwam z listy
+        priceServicesLabel.setText(priceServices + " PLN");
 
-        //addServiceComboBox.getItems().add(serviceListView.getItems().get(index).toString());
-        addServiceComboBox.getItems().add(selectedServiceList.get(index).getNameService());
-        serviceList.add(selectedServiceList.get(index));
-        serviceListView.getItems().remove(index);
 
     }
 
@@ -184,16 +200,17 @@ public class MakeVisitController implements Initializable {
     }
 
     public void addVisit(ActionEvent event) {
+        if(selectedPatientPesel.length() != 11) {UtilFunction.showAlert(Alert.AlertType.WARNING, LanguageString.NO_PESEL_SELECTED).show(); return;}
+        if(doctorChoiceBox.getSelectionModel().getSelectedIndex() == -1) {UtilFunction.showAlert(Alert.AlertType.WARNING, LanguageString.NO_DOCTOR_SELECTED).show(); return;}
+        if(dateDatePicker.getValue() == null) {UtilFunction.showAlert(Alert.AlertType.WARNING, LanguageString.NO_DATE_SELECTED).show(); return;}
+        if(selectedServiceList.size() == 0) {UtilFunction.showAlert(Alert.AlertType.WARNING, LanguageString.NO_SERVICES_ADDED).show(); return;}
+
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate date = dateDatePicker.getValue();
-        //System.out.println(formatter.format(date));
-        //System.out.println(doctorChoiceBox.getSelectionModel().getSelectedIndex());
 
         try{
-
-            //Connection c = Main.pool.getConnection();
             Connection c = DatabaseManager.getConnection();
-            System.out.println(c);
             PreparedStatement statement = c.prepareStatement("INSERT INTO WIZYTY(pesel_pacjenta, id_pracownika, data) VALUES(?, ?, ?)");
             statement.setString(1, selectedPatientPesel);
             statement.setInt(2, doctorList.get(Integer.valueOf(doctorChoiceBox.getSelectionModel().getSelectedIndex())).getId());
@@ -217,12 +234,11 @@ public class MakeVisitController implements Initializable {
 
             statement = c.prepareStatement(query);
             statement.executeUpdate();
-            //if(c != null) Main.pool.returnConnection(c);
 
             //poprawne lub niepoprawne dodanie i zamkniecie okna
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Dodano wizyte!");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, LanguageString.VISIT_ADDED);
             alert.show();
-            WindowManager.getInstance().closeWindow();
+            WindowManager.getInstance().getCurrentWindow().close();
 
 
         }catch(Exception e){
@@ -230,6 +246,47 @@ public class MakeVisitController implements Initializable {
         }
 
 
+
+    }
+
+    public void billClick(ActionEvent event) {
+        if(selectedPatientPesel.length() < 11) {UtilFunction.showAlert(Alert.AlertType.WARNING, LanguageString.NO_PESEL_SELECTED).show(); return;}
+        if(dateDatePicker.getValue() == null) {UtilFunction.showAlert(Alert.AlertType.WARNING, LanguageString.NO_DATE_SELECTED).show(); return;}
+        if(selectedServiceList.size() == 0) {UtilFunction.showAlert(Alert.AlertType.WARNING, LanguageString.NO_SERVICES_ADDED).show(); return;}
+
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Zapisz rachunek");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("PDF", "*.pdf")
+        );
+        File file = fileChooser.showSaveDialog(WindowManager.getInstance().getCurrentWindow());
+        if(file != null){
+            try{
+
+                PdfReader reader = new PdfReader(getClass().getResource("/pdf/rachunek.pdf"));
+                PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(file.getPath()));
+
+                AcroFields form = stamper.getAcroFields();
+                form.setField("data", String.valueOf(dateDatePicker.getValue()));
+                form.setField("numer",  String.format("%04d", new Random().nextInt(10000)));
+
+                for(int i = 0; i < selectedServiceList.size(); i++){
+                    if(i == 5) break;
+                    form.setField("usluga" + (i+1), selectedServiceList.get(i).getNameService());
+                    form.setField("cena" + (i+1), String.valueOf(selectedServiceList.get(i).getCostService()));
+                }
+
+                form.setField("suma", String.valueOf(priceServices));
+
+                stamper.setFormFlattening(true);
+                stamper.close();
+                reader.close();
+                Desktop.getDesktop().open(file);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
 
     }
 }

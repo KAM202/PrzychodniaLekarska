@@ -39,7 +39,6 @@ public class VisitWrapper {
     public Integer getNumberPatient() {
         return pacjent != null ? pacjent.getNumberPhone() : null;
     }
-
     public String getSurnamePatient() {
         return pacjent != null ? pacjent.getSurname() : null;
     }

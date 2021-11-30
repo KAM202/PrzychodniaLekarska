@@ -14,15 +14,14 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
-<Pane prefHeight="467.0" prefWidth="535.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="przychodnialekarska.controller.MakeVisitController">
+<Pane prefHeight="467.0" prefWidth="554.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="przychodnialekarska.controller.MakeVisitController">
    <children>
-      <Label layoutX="147.0" layoutY="30.0" text="Umów pacjenta na wizytę">
+      <Label layoutX="157.0" layoutY="30.0" text="Umów pacjenta na wizytę">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <GridPane layoutX="127.0" layoutY="70.0" prefHeight="192.0" prefWidth="280.0">
+      <GridPane layoutX="137.0" layoutY="60.0" prefHeight="192.0" prefWidth="280.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -61,22 +60,24 @@
          </children>
       </GridPane>
       <ListView fx:id="serviceListView" layoutX="33.0" layoutY="289.0" prefHeight="105.0" prefWidth="280.0" />
-      <Label layoutX="107.0" layoutY="262.0" text="Lista usług na wizycie">
+      <Label layoutX="109.0" layoutY="263.0" text="Lista usług na wizycie">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
       </Label>
-      <GridPane layoutX="69.0" layoutY="414.0" prefHeight="30.0" prefWidth="207.0">
+      <GridPane layoutX="29.0" layoutY="415.0" prefHeight="30.0" prefWidth="292.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="88.0" minWidth="10.0" prefWidth="73.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="122.0" minWidth="10.0" prefWidth="116.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButton" text="Anuluj " GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <Button fx:id="addButton" mnemonicParsing="false" onAction="#addVisit" text="Dodaj wizytę" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButton" prefHeight="25.0" prefWidth="54.0" text="Anuluj " GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Button fx:id="addButton" mnemonicParsing="false" onAction="#addVisit" text="Dodaj wizytę" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Button fx:id="billButton" mnemonicParsing="false" onAction="#billClick" prefHeight="25.0" prefWidth="117.0" text="Wystaw rachunek" GridPane.columnIndex="1" />
          </children>
       </GridPane>
       <GridPane layoutX="321.0" layoutY="297.0">
@@ -98,8 +99,17 @@
             <Button fx:id="removeButton" mnemonicParsing="false" onAction="#removeService" text="Usuń usługę" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
             <ComboBox fx:id="addServiceComboBox" prefWidth="150.0" GridPane.columnIndex="1" />
             <Button fx:id="addServiceButton" mnemonicParsing="false" onAction="#addService" text="Dodaj usługę" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+            <Label text="Cena usług:" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+               <padding>
+                  <Insets right="5.0" />
+               </padding>
+            </Label>
+            <Label fx:id="priceServicesLabel" text="0.00 PLN" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <Button fx:id="registerNewPatientButton" layoutX="335.0" layoutY="417.0" mnemonicParsing="false" onAction="#registerNewPatientButton" prefHeight="25.0" prefWidth="172.0" text="Rejestracja nowego pacjenta" />
+      <Button fx:id="registerNewPatientButton" layoutX="349.0" layoutY="417.0" mnemonicParsing="false" onAction="#registerNewPatientButton" prefHeight="25.0" prefWidth="172.0" text="Rejestracja nowego pacjenta" />
    </children>
 </Pane>

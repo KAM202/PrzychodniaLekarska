@@ -12,15 +12,14 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="przychodnialekarska.controller.AddPatientController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="przychodnialekarska.controller.AddPatientController">
    <children>
       <Label layoutX="115.0" layoutY="28.0" text="Formularz dodawania nowego pacjenta">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <GridPane layoutX="200.0" layoutY="110.0">
+      <GridPane layoutX="89.0" layoutY="80.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -92,8 +91,107 @@
       </GridPane>
       <ImageView fitHeight="30.0" fitWidth="31.0" layoutX="556.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="/img/help.png" />
+            <Image url="@../img/help.png" />
          </image>
       </ImageView>
+      <Pane layoutX="345.0" layoutY="80.0" prefHeight="240.0" prefWidth="224.0" style="-fx-border-radius: 20px; -fx-border-width: 3px; -fx-border-color: #D3D3D3; -fx-background-radius: 20; -fx-background-color: #DCDCDC;">
+         <children>
+            <ImageView fitHeight="80.0" fitWidth="80.0" layoutX="144.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/patient.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="22.0" layoutY="14.0" text="Karta pacjenta">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="nameSurnameLabel" layoutX="22.0" layoutY="40.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <GridPane layoutX="12.0" layoutY="75.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Pesel:..." GridPane.halignment="RIGHT">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Label>
+                  <Label text="Nr telefonu:..." GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Label>
+                  <Label text="Adres:..." GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Label>
+                  <Label text="Kod pocztowy:..." GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Label>
+                  <Label text="Adres e-mail:..." GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Label>
+                  <Label fx:id="peselLabel" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets left="2.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="mobileLabel" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="2.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="addressLabel" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets left="2.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="zipLabel" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets left="2.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="emailLabel" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets left="2.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+         </children>
+      </Pane>
    </children>
 </Pane>

@@ -56,6 +56,22 @@ public class PatientListController implements Initializable {
         patientTable.setPlaceholder(new Label("Brak pacjentów!"));
 
         patientTable.getSelectionModel().selectedIndexProperty().addListener((num) -> onClick());
+
+        peselFilter.textProperty().addListener((observable, oldValue, newValue) -> liveFilter());
+        nameFilter.textProperty().addListener((observable, oldValue, newValue) -> liveFilter());
+        surnameFilter.textProperty().addListener((observable, oldValue, newValue) -> liveFilter());
+    }
+
+    public void liveFilter() {
+        ObservableList<Pacjent> test2 = FXCollections.observableArrayList();
+        for(int i = 0; i < patientList.size(); i++) {
+            if (peselFilter.getText().length() > 0 && !(patientList.get(i).getPesel().toLowerCase().contains(peselFilter.getText().toLowerCase()))) continue;
+            if (nameFilter.getText().length() > 0 && !(patientList.get(i).getName().toLowerCase().contains(nameFilter.getText().toLowerCase()))) continue;
+            if (surnameFilter.getText().length() > 0 && !(patientList.get(i).getSurname().toLowerCase().contains(surnameFilter.getText().toLowerCase()))) continue;
+            test2.add(patientList.get(i));
+        }
+        patientTable.setItems(test2);
+        historyListView.getItems().clear();
     }
 
     private void onClick() {
@@ -104,19 +120,5 @@ public class PatientListController implements Initializable {
         historyListView.getItems().clear();
     }
 
-    public void filterButtonClick(ActionEvent event) {
-        ObservableList<Pacjent> test2 = FXCollections.observableArrayList();
 
-        if(peselFilter.getText().length() > 2 || nameFilter.getText().length() > 2 || surnameFilter.getText().length() > 2){
-            for(int i = 0; i < patientList.size(); i++) {
-                if (peselFilter.getText().length() > 2 && !(patientList.get(i).getPesel().toLowerCase().contains(peselFilter.getText().toLowerCase()))) continue;
-                if (nameFilter.getText().length() > 2 && !(patientList.get(i).getName().toLowerCase().contains(nameFilter.getText().toLowerCase()))) continue;
-                if (surnameFilter.getText().length() > 2 && !(patientList.get(i).getSurname().toLowerCase().contains(surnameFilter.getText().toLowerCase()))) continue;
-                test2.add(patientList.get(i));
-            }
-            patientTable.setItems(test2);
-            historyListView.getItems().clear();
-
-        }
-    }
 }
