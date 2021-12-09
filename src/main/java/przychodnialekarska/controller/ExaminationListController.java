@@ -12,11 +12,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import przychodnialekarska.DatabaseManager;
-import przychodnialekarska.Main;
 import przychodnialekarska.objectClass.*;
 import przychodnialekarska.utils.Variables;
 
-import javax.swing.plaf.nimbus.State;
 import java.awt.*;
 import java.io.File;
 import java.net.URL;
@@ -75,7 +73,7 @@ public class ExaminationListController implements Initializable {
         examinationWrappers = FXCollections.observableArrayList();
         uslugaArrayList = new ArrayList<>();
 
-        additional = (Variables.poziomUprawnien == 1)?Variables.additionalQuery:"";
+        additional = (Variables.poziomUprawnien == 1)?Variables.addittionalQuery():"";
 
         loadDatabase();
         examinationTableView.getSelectionModel().selectedIndexProperty().addListener((num) -> onClickOnTable());

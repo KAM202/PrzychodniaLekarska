@@ -10,15 +10,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import przychodnialekarska.DatabaseManager;
 import przychodnialekarska.objectClass.Pacjent;
 import przychodnialekarska.objectClass.Usluga;
-import przychodnialekarska.objectClass.VisitWrapper;
 import przychodnialekarska.objectClass.Wizyta;
 
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -85,7 +82,7 @@ public class PatientListController implements Initializable {
 
     private void loadDatabase(){
         try{
-            //Connection c = Main.pool.getConnection();
+
             Connection c = DatabaseManager.getConnection();
             Statement statement = c.createStatement();
             String sql = "SELECT * from PACJENCI";
@@ -104,7 +101,7 @@ public class PatientListController implements Initializable {
                 visitArrayList.add(tempVisit);
 
             }
-            //if(c != null) Main.pool.returnConnection(c);
+
         }catch (Exception e){
             e.printStackTrace();
         }

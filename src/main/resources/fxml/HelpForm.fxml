@@ -9,7 +9,7 @@
 <?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="960.0" style="-fx-background-color: #DCDCDC;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="przychodnialekarska.controller.HelpController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="960.0" style="-fx-background-color: #DCDCDC;" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="przychodnialekarska.controller.HelpController">
    <children>
       <MediaView fx:id="mediaView" fitHeight="432.0" fitWidth="768.0" layoutX="96.0" layoutY="84.0" onMouseClicked="#mediaViewClick">
          <cursor>
@@ -32,7 +32,7 @@
             <Insets left="2.0" />
          </padding>
       </Label>
-      <Label alignment="CENTER" layoutX="173.0" layoutY="37.0" prefHeight="34.0" prefWidth="614.0" text="Przykładowe okno pomocy">
+      <Label fx:id="titleLabel" alignment="CENTER" layoutX="173.0" layoutY="37.0" prefHeight="34.0" prefWidth="614.0" text="Przykładowe okno pomocy">
          <font>
             <Font name="System Bold" size="23.0" />
          </font>

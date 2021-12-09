@@ -12,11 +12,9 @@ import przychodnialekarska.objectClass.*;
 import przychodnialekarska.utils.Variables;
 
 import java.net.URL;
-//import java.sql.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -65,8 +63,8 @@ public class VisitListForm implements Initializable {
         dateColumn.setCellValueFactory(new PropertyValueFactory<VisitWrapper, Date>("date"));
 
         test = FXCollections.observableArrayList();
-        additional = (Variables.poziomUprawnien == 1)?Variables.additionalQuery:"";
-
+        additional = (Variables.poziomUprawnien == 1)?Variables.addittionalQuery():"";
+        System.out.println(additional);
         loadDatabase();
 
 
@@ -83,25 +81,17 @@ public class VisitListForm implements Initializable {
     }
     private void loadDatabase(){
         try{
-            // Connection c = Main.pool.getConnection();
             Connection c = DatabaseManager.getConnection();
-            //Statement statement = c.createStatement();
             String sql = "SELECT wizyty.id_wizyty, pacjenci.imie, pacjenci.nazwisko, pracownicy.imie, pracownicy.nazwisko, wizyty.data, pacjenci.pesel_pacjenta, pacjenci.nr_telefonu FROM WIZYTY INNER JOIN pacjenci USING (pesel_pacjenta) INNER JOIN pracownicy USING (id_pracownika)" + additional;
             Statement statement = c.createStatement();
-            //PreparedStatement statement = c.prepareStatement(sql);
-            //statement.setString(1, "wizyty");
-            // statement.setString(2, passwordField.getText());
-            // ResultSet res = statement.executeQuery();
             ResultSet res = statement.executeQuery(sql);
 
             while(res.next()) {
-                //System.out.println(res.getString("data"));
-                //c = Main.pool.getConnection();
                 statement = c.createStatement();
                 ResultSet res2 = statement.executeQuery("SELECT uslugi.id_uslugi, uslugi.nazwa FROM SZCZEGOLY_WIZYT INNER JOIN USLUGI USING (id_uslugi) WHERE id_wizyty = '" + res.getInt("id_wizyty") + "'");
                 ArrayList<Usluga> uslugaArrayList = new ArrayList<>();
                 while (res2.next()) {
-                    //System.out.println(res2.getString("nazwa"));
+
                     uslugaArrayList.add(new Usluga(res2.getInt("id_uslugi"), res2.getString("nazwa"), "", 1.0));
                 }
 
@@ -157,13 +147,13 @@ public class VisitListForm implements Initializable {
     private void onClick(ObservableList<VisitWrapper> test) {
         int index = visitTable.getSelectionModel().getSelectedIndex();
         if(index == -1) return;
-        //System.out.println(visitTable.getSelectionModel().getSelectedIndex());
+
         patientLabel.setText(test.get(index).getNamePatient() + " " + test.get(index).getSurnamePatient());
         patientPeselLabel.setText(test.get(index).getPeselPatient());
         patientMobileLabel.setText(test.get(index).getNumberPatient().toString());
         doctorLabel.setText(test.get(index).getNameDoctor() + " " + test.get(index).getSurnameDoctor());
         dateLabel.setText(test.get(index).getDate());
-        //listView.getItems().add("ITEM");
+
         listView.getItems().clear();
         for(int i = 0; i < test.get(index).getUslugi().size(); i++){
             listView.getItems().add(test.get(index).getUslugi().get(i).getNameService());

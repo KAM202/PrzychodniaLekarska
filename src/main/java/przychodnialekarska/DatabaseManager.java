@@ -1,8 +1,6 @@
 package przychodnialekarska;
 
-import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -18,5 +16,12 @@ public class DatabaseManager {
             connection = DriverManager.getConnection(databasePath);
         }
         return connection;
+    }
+
+    public static void closeConnection() throws SQLException{
+        if(connection != null){
+            connection.close();
+            connection = null;
+        }
     }
 }

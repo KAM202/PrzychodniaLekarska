@@ -13,6 +13,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import przychodnialekarska.utils.Variables;
 
+import java.sql.SQLException;
 import java.util.Stack;
 
 public class WindowManager {
@@ -108,7 +109,11 @@ public class WindowManager {
     public void closeWindow() {
 
         windows.lastElement().close();
-
+        try {
+            DatabaseManager.closeConnection();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         //if(ServiceController.thread != null) ServiceController.thread.interrupt();
     }
 

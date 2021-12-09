@@ -13,10 +13,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import przychodnialekarska.DatabaseManager;
 import przychodnialekarska.WindowManager;
 import przychodnialekarska.objectClass.Lekarz;
@@ -24,7 +26,6 @@ import przychodnialekarska.objectClass.Pacjent;
 import przychodnialekarska.objectClass.Usluga;
 import przychodnialekarska.utils.LanguageString;
 import przychodnialekarska.utils.UtilFunction;
-import przychodnialekarska.utils.Variables;
 
 import java.awt.*;
 import java.io.File;
@@ -48,7 +49,6 @@ public class MakeVisitController implements Initializable {
     private String selectedPatientPesel;
     private ArrayList<Usluga> selectedServiceList;
     private int selectedDoctorId;
-    //private ArrayList<String> serviceListOnView;
 
 
     @FXML
@@ -82,7 +82,7 @@ public class MakeVisitController implements Initializable {
         selectedPatientPesel = "";
         priceServices = 0.0;
         priceServicesLabel.setText(priceServices + " PLN");
-        //serviceListOnView = new ArrayList<String>();
+
         loadDatabase();
 
         for(Lekarz l : doctorList){
@@ -92,9 +92,6 @@ public class MakeVisitController implements Initializable {
         for(Usluga u : serviceList){
             addServiceComboBox.getItems().add(u.getNameService());
         }
-
-        //String pesel = "123456789";
-
 
         peselPatientTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -185,7 +182,7 @@ public class MakeVisitController implements Initializable {
     }
 
     public void cancelButton(ActionEvent event) {
-        WindowManager.getInstance().closeWindow();
+        WindowManager.getInstance().getCurrentWindow().close();
     }
 
     public void registerNewPatientButton(ActionEvent event){
@@ -194,6 +191,27 @@ public class MakeVisitController implements Initializable {
 
             Stage stage = WindowManager.getInstance().createWindow(root);
             stage.show();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void helpAction(javafx.scene.input.MouseEvent event){
+        try {
+            HelpController.resourceName = "help1.mp4";
+            HelpController.title = "Jak umówić pacjenta na wizytę?";
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/HelpForm.fxml"));
+
+            Stage stage = WindowManager.getInstance().createWindow(root);
+            stage.setTitle("System informatyczny obsługi przychodni lekarskiej - Pomoc");
+            stage.getIcons().add(new Image("/img/logo.png"));
+            stage.show();
+            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent event) {
+                    HelpController.mediaPlayer.stop();
+                }
+            });
         }catch(Exception e){
             e.printStackTrace();
         }

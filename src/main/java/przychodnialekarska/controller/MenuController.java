@@ -41,32 +41,6 @@ public class MenuController implements Initializable {
 
     }
 
-    public void helpAction(javafx.scene.input.MouseEvent event){
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/fxml/HelpForm.fxml"));
-
-            Stage stage = WindowManager.getInstance().createWindow(root);
-            stage.show();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-    /*
-    public void registerPatient(ActionEvent event){
-
-        System.out.println("Rejestracja pacjenta");
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("../../../resources/fxml/AddPatientForm.fxml"));
-
-            Stage stage = WindowManager.getInstance().createWindow(root);
-            stage.show();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-
-     */
-
     public void testFunction(int access){
         int x = 0, y = 0;
 

@@ -3,15 +3,21 @@ package przychodnialekarska.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import przychodnialekarska.DatabaseManager;
 import przychodnialekarska.WindowManager;
 import przychodnialekarska.objectClass.*;
@@ -96,7 +102,7 @@ public class AddDescriptionOfExaminationController implements Initializable {
         visitList = FXCollections.observableArrayList();
 
         attachmentList = new ArrayList<File>();
-        additional = (Variables.poziomUprawnien == 1)?Variables.additionalQuery:"";
+        additional = (Variables.poziomUprawnien == 1)?Variables.addittionalQuery():"";
 
         loadDatabase();
         visitTable.setItems(visitList);
@@ -331,5 +337,28 @@ public class AddDescriptionOfExaminationController implements Initializable {
 
     }
 
+    public void helpAction(javafx.scene.input.MouseEvent event){
+        try {
+            HelpController.resourceName = "help2.mp4";
+            HelpController.title = "Jak dodać opis badania?";
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/HelpForm.fxml"));
 
+            Stage stage = WindowManager.getInstance().createWindow(root);
+            stage.setTitle("System informatyczny obsługi przychodni lekarskiej - Pomoc");
+            stage.getIcons().add(new Image("/img/logo.png"));
+            stage.show();
+            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent event) {
+                    HelpController.mediaPlayer.stop();
+                }
+            });
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void cancelClick(ActionEvent event) {
+        WindowManager.getInstance().getCurrentWindow().close();
+    }
 }

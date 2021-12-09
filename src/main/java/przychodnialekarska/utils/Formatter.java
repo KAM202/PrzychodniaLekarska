@@ -22,7 +22,5 @@ public class Formatter {
         change.setText(change.getText().replaceAll("[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]*", ""));
         return change;
     });
-    //public static TextFormatter onlyLettersIncludePolish = new TextFormatter((UnaryOperator<TextFormatter.Change>) change ->{
-    //    return Pattern.compile("[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]*").matcher(change.getControlNewText()).matches() ? change : null;
-    //});
+
 }

@@ -129,23 +129,18 @@ public class ServiceController implements Initializable {
         if(index == -1) return;
 
         try{
-            //Connection c = Main.pool.getConnection();
             Connection c = DatabaseManager.getConnection();
             PreparedStatement statement = c.prepareStatement("DELETE FROM USLUGI WHERE id_uslugi = ?");
             statement.setString(1, String.valueOf(uslugi.get(index).getIdService()));
 
             statement.executeUpdate();
-           // if(c != null) Main.pool.returnConnection(c);
 
         }catch (Exception e){
             e.printStackTrace();
         }
         uslugi.remove(index);
         UtilFunction.showAlert(Alert.AlertType.INFORMATION, LanguageString.SERVICE_REMOVED).show();
-       // uslugi.remove(index);
-        //serviceTableView.refresh();
-        //serviceTableView.setItems(uslugi);
-        //System.out.println(uslugi.get(index).getNameService());
+
     }
 
     public void addClick(ActionEvent event){
@@ -162,7 +157,6 @@ public class ServiceController implements Initializable {
 
     public void getFromDatabase(){
         try{
-            //Connection c = Main.pool.getConnection();
             Connection c = DatabaseManager.getConnection();
             Statement statement = c.createStatement();
             String sql = "SELECT * from USLUGI";
@@ -172,7 +166,6 @@ public class ServiceController implements Initializable {
             while(res.next()) {
                 uslugi.add(new Usluga(res.getInt("id_uslugi"), res.getString("nazwa"), res.getString("opis"),res.getDouble("koszt")));
             }
-            //if(c != null) Main.pool.returnConnection(c);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -187,19 +180,6 @@ public class ServiceController implements Initializable {
         nameTextField.setText(uslugi.get(index).getNameService());
         descriptionTextField.setText(uslugi.get(index).getDescriptionService());
         costTextField.setText(String.valueOf(uslugi.get(index).getCostService()));
-    }
-
-    public void changeTextFieldListener(final ObservableValue<? extends String> ov, final String oldValue, final String newValue, TextField textField, final Integer maxLength) {
-        if (textField.getText().length() > maxLength) {
-            String s = textField.getText().substring(0, maxLength);
-            textField.setText(s);
-        }
-    }
-    public void changeTextAreaListener(final ObservableValue<? extends String> ov, final String oldValue, final String newValue, TextArea textArea, final Integer maxLength) {
-        if (textArea.getText().length() > maxLength) {
-            String s = textArea.getText().substring(0, maxLength);
-            textArea.setText(s);
-        }
     }
 
 

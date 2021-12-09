@@ -10,6 +10,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import przychodnialekarska.DatabaseManager;
 import przychodnialekarska.Main;
@@ -97,7 +99,7 @@ public class LoginController  implements Initializable {
                 }catch(Exception e){
                     e.printStackTrace();
                 }
-                //Main.poziomUprawnien = 0;
+
                 Platform.runLater(new Runnable(){
                     @Override
                     public void run() {
@@ -119,7 +121,8 @@ public class LoginController  implements Initializable {
 
                         stage.show();
 
-
+                        if(event == null) passwordField.getScene().getWindow().hide();
+                        else
                         ((Node)(event.getSource())).getScene().getWindow().hide();
                     }
 
@@ -134,10 +137,11 @@ public class LoginController  implements Initializable {
     }
 
 
-    public void helpAction(javafx.scene.input.MouseEvent event){
-        System.out.println("help button");
+    public void enterHandler(KeyEvent keyEvent) {
+        if(keyEvent.getCode() == KeyCode.ENTER){
+
+            logIn(null);
+
+        }
     }
-
-
-
 }

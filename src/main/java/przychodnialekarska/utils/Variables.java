@@ -10,9 +10,13 @@ public class Variables {
     public static int poziomUprawnien = -1;
     public static String imie;
     public static String nazwisko;
-    public static Integer id_pracownika = 0;
+    public static Integer id_pracownika;
 
     public static final String additionalQuery = " WHERE id_pracownika = '" + id_pracownika + "'";
+
+    public static String addittionalQuery(){
+        return " WHERE id_pracownika = '" + id_pracownika + "'";
+    }
 
     public static ArrayList<ArrayList<Integer>> windowsIds = new ArrayList(
             Arrays.asList(
